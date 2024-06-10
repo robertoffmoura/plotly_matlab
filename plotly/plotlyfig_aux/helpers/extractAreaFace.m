@@ -29,7 +29,7 @@ MarkerColor = area_data.FaceColor;
 
 if isnumeric(MarkerColor)
     col = 255*MarkerColor;
-    facecolor = ['rgb(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ')'];
+    facecolor = ['rgba(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ',' num2str(area_data.FaceAlpha) ')'];
 else
     switch MarkerColor
         
@@ -42,12 +42,11 @@ else
             capCD = max(min(areaACData(1,1),axis_data.CLim(2)),axis_data.CLim(1));
             scalefactor = (capCD - axis_data.CLim(1))/diff(axis_data.CLim);
             col =  255*(colormap(1 + floor(scalefactor*(length(colormap)-1)),:));
-            facecolor = ['rgb(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ')'];
+            facecolor = ['rgba(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ',' num2str(area_data.FaceAlpha) ')'];
     end
 end
 
 face.color = facecolor;
-
 %-------------------------------------------------------------------------%
 
 end

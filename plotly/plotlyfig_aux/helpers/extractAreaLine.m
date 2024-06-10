@@ -13,14 +13,14 @@ line = struct();
 
 %-AREA LINE COLOR-%
 
-if(~strcmp(area_data.LineStyle,'none'))
+if area_data.LineStyle~="none"
     
     % marker edge color
     LineColor = area_data.EdgeColor;
     
     if isnumeric(LineColor)
         col = 255*LineColor;
-        linecolor = ['rgb(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ')'];
+        linecolor = ['rgba(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ',' num2str(area_data.EdgeAlpha) ')'];
     else
         linecolor = 'rgba(0,0,0,0)';
     end
@@ -49,7 +49,6 @@ if(~strcmp(area_data.LineStyle,'none'))
     line.dash = LineStyle;
     
 %-------------------------------------------------------------------------%
-
 end
 end
 

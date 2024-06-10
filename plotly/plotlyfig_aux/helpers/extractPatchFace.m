@@ -27,14 +27,14 @@ colormap = figure_data.Colormap;
 if isnumeric(patch_data.FaceColor)
     
     %-paper_bgcolor-%
-    col = 255*patch_data.FaceColor;
-    marker.color = ['rgb(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ')'];
+    col = [255*patch_data.FaceColor patch_data.FaceAlpha];
+    marker.color = ['rgba(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ',' num2str(col(4)) ')'];
     
 else
     switch patch_data.FaceColor
         
         case 'none'
-            marker.color = 'rgba(0,0,0,0)';
+            col = [0 0 0 0];
             
         case {'flat','interp'}
             
@@ -49,11 +49,13 @@ else
                     
             end
             
-            marker.color = ['rgb(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ')'];
+            col = [col patch_data.FaceAlpha];
 
         case 'auto'
-            marker.color = 'rgb(0,113.985,188.955)';
+            col = 255*patch_data.Parent.ColorOrder(patch_data.Parent.ColorOrderIndex-1,:);
+            col = [col patch_data.FaceAlpha];
     end
+    marker.color = ['rgba(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ',' num2str(col(4)) ')'];
 end
 
 %-------------------------------------------------------------------------%
@@ -61,13 +63,12 @@ end
 %-PATCH EDGE COLOR-%
 if isnumeric(patch_data.EdgeColor)
     
-    col = 255*patch_data.EdgeColor;
-    marker.line.color = ['rgb(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ')'];
+    col = [255*patch_data.EdgeColor patch_data.EdgeAlpha];
 else
     switch patch_data.EdgeColor
         
         case 'none'
-            marker.line.color = 'rgba(0,0,0,0,)';
+            col = [0 0 0 0];
             
         case 'flat'
             
@@ -83,7 +84,8 @@ else
                     
             end
             
-            marker.line.color = ['rgb(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ')'];
+            col = [col patch_data.EdgeAlpha];
     end
 end
+marker.line.color = ['rgba(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ',' num2str(col(4)) ')'];
 end
