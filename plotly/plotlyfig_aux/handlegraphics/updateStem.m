@@ -69,6 +69,13 @@ function obj = updateStem3(obj,dataIndex)
   stem_data.mode = 'lines+markers';
 
   %------------------------------------------------------------------------%
+  if isdatetime(xdata)
+      xdata = datenum(xdata);
+  end
+  if isdatetime(ydata)
+      ydata = datenum(ydata);
+  end
+
 
   %-allocated space for extended data-%
   xdata_extended = zeros(3*npoints, 1); 
