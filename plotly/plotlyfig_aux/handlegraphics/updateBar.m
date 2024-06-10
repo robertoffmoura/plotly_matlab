@@ -100,10 +100,12 @@ function obj = updateBar(obj,barIndex)
     %-layout settings-%
     obj.layout.bargroupgap = 1-barData.BarWidth;
 
-    try
-        obj.layout.bargap = obj.layout.bargap + 0.0625;
-    catch
-        obj.layout.bargap = 0.0625;
+    bars = findobj(obj.State.Plot(barIndex).AssociatedAxis.Children,'Type','Bar');
+    nBar = sum({bars.BarLayout}=="grouped");
+    if nbar > 1
+        obj.layout.bargap = 0.2;
+    else
+        obj.layout.bargap = 0;
     end
 
     switch barData.BarLayout
