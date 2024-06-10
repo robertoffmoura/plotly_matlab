@@ -23,6 +23,7 @@ function updateOnlyAxes(obj, plotIndex)
     %-set empty data-%
     obj.data{plotIndex}.x = [];
     obj.data{plotIndex}.y = [];
+    obj.data{plotIndex}.name = '';
 
     %-------------------------------------------------------------------------%
 end

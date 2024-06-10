@@ -41,8 +41,15 @@ function updateScatter(obj,plotIndex)
     obj.data{plotIndex}.x = xData;
     obj.data{plotIndex}.y = yData;
 
+    isSingle = isscalar(obj.data{plotIndex}.x);
+    if isSingle % fix single point plots
+        obj.data{plotIndex}.x = repelem(obj.data{plotIndex}.x,1,2);
+        obj.data{plotIndex}.y = repelem(obj.data{plotIndex}.y,1,2);
+    end
+
     if isScatter3D
         obj.data{plotIndex}.z = plotData.ZData;
+        if isSingle, obj.data{plotIndex}.z = repelem(obj.data{plotIndex}.z,1,2); end
     end
         
     %-------------------------------------------------------------------------%
@@ -56,9 +63,7 @@ function updateScatter(obj,plotIndex)
     end
         
     %-set trace legend-%
-    if isScatter3D
-        obj.data{plotIndex}.showlegend = getShowLegend(plotData);
-    end
+    obj.data{plotIndex}.showlegend = getShowLegend(plotData);
 
     %-------------------------------------------------------------------------%
 end

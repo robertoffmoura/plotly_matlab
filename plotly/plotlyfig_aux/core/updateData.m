@@ -179,6 +179,14 @@ function obj = updateData(obj, dataIndex)
         end
     end
 
+if ~isfield(obj.data{dataIndex},'showlegend')
+    obj.data{dataIndex}.showlegend = getShowLegend(obj.State.Plot(dataIndex).Handle);
+end
+if ~isfield(obj.data{dataIndex},'name')
+    obj.data{dataIndex}.name = '';
+end
+assert(all(isfield(obj.data{dataIndex},["name" "showlegend"])),"Missing fields that are assumed to be present downstream");
+
 %------------------------AXIS/DATA CLEAN UP-------------------------------%
 
 ax = obj.State.Plot(dataIndex).AssociatedAxis;
