@@ -171,7 +171,7 @@ obj.data{histIndex}.name = hist_data.DisplayName;
 %-------------------------------------------------------------------------%
 
 %-layout barmode-%
-obj.layout.barmode = 'group';
+obj.layout.barmode = 'overlay';
 
 %-------------------------------------------------------------------------%
 
@@ -189,13 +189,6 @@ end
 
 %-marker data-%
 obj.data{histIndex}.marker = extractPatchFace(hist_data);
-
-%-------------------------------------------------------------------------%
-
-%-change color when multiple histograms same axes-%
-if min([xsource, ysource]) == 1
-    obj.data{histIndex}.marker = rmfield(obj.data{histIndex}.marker, 'color');
-end
 
 %-------------------------------------------------------------------------%
 

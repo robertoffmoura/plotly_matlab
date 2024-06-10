@@ -52,7 +52,8 @@ else
             col = [col patch_data.FaceAlpha];
 
         case 'auto'
-            col = 255*patch_data.Parent.ColorOrder(patch_data.Parent.ColorOrderIndex-1,:);
+            cIndex = find(flipud(arrayfun(@(x) isequaln(x,patch_data),patch_data.Parent.Children))); % far from pretty
+            col = 255*patch_data.Parent.ColorOrder(cIndex,:);
             col = [col patch_data.FaceAlpha];
     end
     marker.color = ['rgba(' num2str(col(1)) ',' num2str(col(2)) ',' num2str(col(3)) ',' num2str(col(4)) ')'];
