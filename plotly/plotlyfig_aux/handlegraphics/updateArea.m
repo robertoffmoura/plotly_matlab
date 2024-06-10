@@ -100,8 +100,9 @@ obj.data{areaIndex}.x = area_data.XData;
 %-------------------------------------------------------------------------%
 
 %-area y-%
-if areaIndex>1
-    obj.data{areaIndex}.y = obj.data{areaIndex-1}.y + area_data.YData;
+prevAreaIndex = find(cellfun(@(x) isfield(x,'fill') && isequal({x.xaxis x.yaxis},{obj.data{areaIndex}.xaxis obj.data{areaIndex}.yaxis}),obj.data(1:areaIndex-1)),1,'last');
+if ~isempty(prevAreaIndex)
+    obj.data{areaIndex}.y = obj.data{prevAreaIndex}.y + area_data.YData;
 else
     obj.data{areaIndex}.y = area_data.YData;
 end
@@ -123,12 +124,20 @@ obj.data{areaIndex}.visible = strcmp(area_data.Visible,'on');
 %-------------------------------------------------------------------------%
 
 %-area fill-%
-obj.data{areaIndex}.fill = 'tonexty';
+if ~isempty(prevAreaIndex)
+    obj.data{areaIndex}.fill = 'tonexty';
+else % first area plot
+    obj.data{areaIndex}.fill = 'tozeroy';
+end
 
 %-------------------------------------------------------------------------%
 
 %-AREA MODE-%
-obj.data{areaIndex}.mode = 'lines';
+if isprop(area_data,'LineStyle') && isequal(area_data.LineStyle,'none')
+    obj.data{areaIndex}.mode = "none";
+else
+    obj.data{areaIndex}.mode = 'lines';
+end
 
 %-------------------------------------------------------------------------%
 
@@ -159,5 +168,3 @@ obj.data{areaIndex}.showlegend = showleg;
 %-------------------------------------------------------------------------%
 
 end
-
-
