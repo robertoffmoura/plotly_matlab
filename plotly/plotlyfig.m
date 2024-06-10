@@ -651,6 +651,15 @@ classdef plotlyfig < handle
                     obj.State.Text(a).Handle = ax(axrev).Title;
                     obj.State.Text(a).AssociatedAxis = handle(ax(axrev));
                     obj.State.Text(a).Title = true;
+                    if isprop(ax(axrev),"Subtitle") % Recommended use for subtitles is to append to the title https://github.com/plotly/plotly.js/issues/233
+                        sub_handle = get(ax(axrev),'Subtitle');
+                        if ~isempty(sub_handle.String)
+                            titleObj = get(ax(axrev),'Title');
+                            origTitle = titleObj.String;
+                            oncleanup = onCleanup(@() set(titleObj,'String',origTitle));
+                            obj.State.Text(a).Handle.String = [string(obj.State.Text(a).Handle.String) "<sub>"+sub_handle.String+"</sub>"];
+                        end
+                    end
                 catch
                     % TODO
                 end
