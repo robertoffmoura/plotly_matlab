@@ -14,7 +14,9 @@ marker = struct();
 %-MARKER SIZE-%
 marker.size = line_data.MarkerSize;
 
-if length(marker.size) == 1
+if line_data.Marker == '.' % scale factor for points is off
+    marker.size = floor(sqrt(marker.size));
+elseif length(marker.size) == 1
     marker.size = 0.6*marker.size;
 end
 
