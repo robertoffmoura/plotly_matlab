@@ -8,7 +8,7 @@ updateLineseries(obj,dataIndex);
 %------------------------------------------------------------------------%
 
 %-stair shape-%
-obj.data{dataIndex}.line.shape = 'hvh'; 
+obj.data{dataIndex}.line.shape = 'hv';
 
 %------------------------------------------------------------------------%
 end
