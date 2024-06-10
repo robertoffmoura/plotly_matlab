@@ -5,17 +5,19 @@ function valstr = m2json(val)
         valstr = cell2json(val);
     elseif isa(val, 'numeric')
         sz = size(val);
+        precision = ifel(isa(val,'single'),'7','15');
+        fmt = ['%.' precision 'g,'];
         if length(find(sz>1))>1 % 2D or higher array
             valstr = '';
             for i = 1:sz(1)
-                valsubstr = [sprintf('%.15g, ', val(i,:))];
-                valsubstr = valsubstr(1:(end-2));
+                valsubstr = [sprintf(fmt, val(i,:))];
+                valsubstr = valsubstr(1:(end-1));
                 valstr = [valstr ', [' valsubstr ']'];
             end
             valstr = valstr(3:end); % trail leading commas
         else
-            valstr = [sprintf('%.15g, ', val)];
-            valstr = valstr(1:(end-2));
+            valstr = [sprintf(fmt, val)];
+            valstr = valstr(1:(end-1));
         end
         if length(val)>1
             valstr = ['[' valstr ']'];
