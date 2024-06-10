@@ -28,7 +28,7 @@ end
 if strcmpi(imageFormat,'jpg')
     imageFormat = "jpeg";
 end
-    
+
 wd=fileparts(fileparts(mfilename('fullpath')));
 output=[];
 
@@ -52,8 +52,8 @@ else
     status=1;
 end
 
-if status == 0 
-    return 
+if status == 0
+    return
 end
 
 mjLoc = replace(string(fullfile(wd,'kaleido','etc','mathjax','MathJax.js')),'\','/');
@@ -104,7 +104,7 @@ if output.code ~= 0
     fprintf('\nError: %s\n',output.message);
 else
     out=unicode2native(output.result,'UTF-8');
-    out=base64decode(out);
+    out=matlab.net.base64decode(out);
     f=fopen(char(filename),'wb');
     fwrite(f,out);
     fclose(f);
