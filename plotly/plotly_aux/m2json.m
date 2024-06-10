@@ -5,8 +5,9 @@ function valstr = m2json(val)
         valstr = cell2json(val);
     elseif isa(val, 'numeric')
         sz = size(val);
-        precision = ifel(isa(val,'single'),'7','15');
-        fmt = ['%.' precision 'g,'];
+        numDigits = 3 + ceil(clip(log10(double(max(abs(val),[],'all'))) - log10(double(range(val,'all'))),0,12));
+        numDigits(~isfinite(numDigits)) = 7;
+        fmt = sprintf('%%.%ig,',numDigits);
         if length(find(sz>1))>1 % 2D or higher array
             valstr = '';
             for i = 1:sz(1)
@@ -51,3 +52,9 @@ function valstr = m2json(val)
         valstr = ''; % wtf is it?
         warning("Failed to m2json encode class of type: %s",class(val));
     end
+end
+
+function x = clip(x,lb,ub)
+    x(x<lb) = lb;
+    x(x>ub) = ub;
+end
