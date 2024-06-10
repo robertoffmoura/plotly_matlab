@@ -8,7 +8,11 @@ for a = 1:axIndex
 end
 
 % check axis overlap
-overlapaxes = find(arrayfun(@(x)(isequal(x.Handle.Position,obj.State.Axis(axIndex).Handle.Position)),obj.State.Axis(1:axIndex)));
+if axIndex == 1 % redundant to check this case
+    overlapaxes = 1;
+else
+    overlapaxes = find(arrayfun(@(x)(isequal(x.Handle.Position,obj.State.Axis(axIndex).Handle.Position)),obj.State.Axis(1:axIndex)));
+end
 overlapping = length(overlapaxes) > 1; %greater than 1 because obj.State.Axis(axIndex) will always be an overlapping axis
 
 %-REVERT UNITS-%
