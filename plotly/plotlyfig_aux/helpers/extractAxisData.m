@@ -123,7 +123,9 @@ function [axis, exponentFormat] = extractAxisData(obj,axisData,axisName)
         axisLim = eval( sprintf('axisData.%sLim', axisName) );
 
         if isnumeric(axisLim)
-            if strcmp(axis.type, 'linear')
+            if any(~isfinite(axisLim))
+                axis.range = shrinkInfLimits(axisData,axisLim,axisName);
+            elseif strcmp(axis.type, 'linear')
                 axis.range = axisLim;
             elseif strcmp(axis.type, 'log')
                 axis.range = log10(axisLim);
@@ -299,4 +301,26 @@ function [axis, exponentFormat] = extractAxisData(obj,axisData,axisName)
     end
 
     %-------------------------------------------------------------------------%
+end
+
+function lim = shrinkInfLimits(axis,lim,axisName)
+    arguments
+        axis
+        lim
+        axisName (1,1) string {mustBeMember(axisName,["Y" "X"])}
+    end
+    plots = axis.Children;
+    plots = plots(~arrayfun(@(x) isa(x,"matlab.graphics.chart.decoration.ConstantLine"),plots));
+    if ~isempty(plots)
+        dataRange = [Inf -Inf];
+        for i = 1:numel(plots)
+            dataRange(1) = min(dataRange(1),min(plots(i).(axisName+"Data")));
+            dataRange(2) = max(dataRange(2),max(plots(i).(axisName+"Data")));
+        end
+        dataRange = dataRange + [-1 1]*diff(dataRange)/8; % add some margin
+    else
+        dataRange = [0 1]; % matches default y-axis from `figure; xline(1)`
+    end
+    toShrink = ~isfinite(lim);
+    lim(toShrink) = dataRange(toShrink);
 end
